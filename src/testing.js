@@ -4,12 +4,24 @@ class Bank {
     this.branches = [];
   }
   addBranch(branch) {
-    this.branches.push(branch);
+    if (this.branches.includes(branch)) {
+      this.branches.push(branch);
+    }
   }
 
-  //test method, not required
-  getBranch() {
-    return this.branches;
+  addCustome(branch, customer) {
+    if (this.branches.includes(branch)) {
+      branch.addCustomer(customer);
+    }
+  }
+
+  addCustomerTransaction(branch, customerId, amount) {
+    const locateBranch = this.branches.find(
+      (branchElement) => branchElement.getName() === branch.getName()
+    );
+    if (locateBranch) {
+      return locateBranch.addCustomerTransaction(customerId, amount);
+    }
   }
 
   //addCustomer(branch, customer)
