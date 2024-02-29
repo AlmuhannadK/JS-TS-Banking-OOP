@@ -35,5 +35,5 @@ customer1.addTransactions(-1000);
 // console.log(arizonaBank);
 
 // to search by name only make id property = 0
-// to search by id only make name property = "default"
+// to search by id only make name property = null
 console.log(arizonaBank.search({ name: null, id: 2 }));
