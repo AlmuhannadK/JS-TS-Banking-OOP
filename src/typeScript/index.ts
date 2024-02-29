@@ -28,8 +28,12 @@ arizonaBank.addCustomerTransaction(westBranch, customer1.getId(), 2000);
 arizonaBank.addCustomerTransaction(westBranch, customer2.getId(), 3000);
 
 customer1.addTransactions(-1000);
-console.log(customer1.getBalance());
-console.log(arizonaBank.listCustomers(westBranch, true));
-console.log(arizonaBank.listCustomers(sunBranch, true));
+// console.log(customer1.getBalance());
+// console.log(arizonaBank.listCustomers(westBranch, true));
+// console.log(arizonaBank.listCustomers(sunBranch, true));
 
-console.log(arizonaBank);
+// console.log(arizonaBank);
+
+// to search by name only make id property = 0
+// to search by id only make name property = "default"
+console.log(arizonaBank.search({ name: null, id: 2 }));
