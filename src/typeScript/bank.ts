@@ -69,4 +69,34 @@ export class Bank {
       return customers;
     }
   }
+
+  // Level 3: Bonus Requirements (Optional)
+  getCustomerByName(name: string) {
+    this.branches.forEach((branchElement) => {
+      const customerList = branchElement.getCustomers();
+      customerList.forEach((customer) => {
+        if (customer.getName().toLowerCase() === name.toLowerCase()) {
+          const targetCustomer: Customer = customer;
+
+          return targetCustomer.getName();
+        }
+      });
+    });
+  }
+
+  getCustomerById(id: number) {}
 }
+
+//Branch Class
+
+// getCustomers() {
+//   return this.customers;
+// }
+
+// Customer Class
+// getName() {
+//   return this.name;
+// }
+// getId() {
+//   return this.id;
+// }
