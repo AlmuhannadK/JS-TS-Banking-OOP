@@ -39,6 +39,7 @@ class Bank {
         return branch;
       }
     });
+    console.log(branchesToFind);
     return branchesToFind;
   }
 
@@ -46,7 +47,7 @@ class Bank {
     const branchExists = this.branches.some((branchToFind) => {
       return branchToFind.name === branch.name;
     });
-    return `branchExists`;
+    return branchExists;
   }
 
   listCustomers(branch, includeTransactions) {
@@ -64,9 +65,9 @@ class Branch {
     this.customers = [];
   }
 
-  checkCustomer(customerToFind) {
+  checkCustomer(customerId) {
     const customerExists = this.customers.some((customer) => {
-      return customer.id === customerToFind.id;
+      return customer.id === customerId;
     });
     return customerExists;
   }
@@ -87,9 +88,13 @@ class Branch {
       );
     }
   }
-  addCustomerTransaction(addToCustomer, transactionToAdd) {
+  addCustomerTransaction(addToCustomer, amount) {
     if (this.checkCustomer(addToCustomer)) {
-      addToCustomer.addTransactions(transactionToAdd);
+      this.getCustomers().forEach((element) => {
+        if (element.id === addToCustomer) {
+          element.addTransactions(amount);
+        }
+      });
     } else {
       console.error(
         `sorry this customer does not exists this branch (${this.name})`
@@ -122,15 +127,15 @@ class Customer {
     return balance;
   }
 
-  addTransactions(transactionToAdd) {
+  addTransactions(transactionAmount) {
     let balance = 0;
     this.transactions.forEach((transaction) => {
       balance += transaction.amount;
     });
 
-    let newBalance = balance + transactionToAdd.amount;
+    let newBalance = balance + transactionAmount;
     if (newBalance > 0) {
-      this.transactions.push(transactionToAdd);
+      this.transactions.push(new Transaction(transactionAmount, new Date()));
       console.log(`Successful transaction new balance is (${newBalance})`);
     } else {
       console.error(
@@ -148,8 +153,10 @@ class Transaction {
 }
 
 const arizonaBank = new Bank("Arizona");
+
 const westBranch = new Branch("West Branch");
 const sunBranch = new Branch("Sun Branch");
+
 const customer1 = new Customer("John", 1);
 const customer2 = new Customer("Anna", 2);
 const customer3 = new Customer("John", 3);
@@ -166,23 +173,13 @@ arizonaBank.addCustomer(westBranch, customer3);
 arizonaBank.addCustomer(sunBranch, customer1);
 arizonaBank.addCustomer(sunBranch, customer2);
 
-arizonaBank.addCustomerTransaction(
-  westBranch,
-  customer1,
-  new Transaction(3000, "01.01.2024")
-);
-arizonaBank.addCustomerTransaction(
-  westBranch,
-  customer1,
-  new Transaction(3000, "01.01.2024")
-);
-arizonaBank.addCustomerTransaction(
-  westBranch,
-  customer2,
-  new Transaction(3000, "01.01.2024")
-);
+arizonaBank.addCustomerTransaction(westBranch, customer1.getId(), 3000);
+arizonaBank.addCustomerTransaction(westBranch, customer1.getId(), 2000);
+arizonaBank.addCustomerTransaction(westBranch, customer2.getId(), 3000);
 
-customer1.addTransactions(new Transaction(-1000, "01.01.2024"));
+customer1.addTransactions(-1000);
 console.log(customer1.getBalance());
 console.log(arizonaBank.listCustomers(westBranch, true));
 console.log(arizonaBank.listCustomers(sunBranch, true));
+
+console.log(arizonaBank);
