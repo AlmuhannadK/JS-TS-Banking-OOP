@@ -91,10 +91,12 @@ class Customer {
     return balance;
   }
 
-  addTransactions(amount) {
-    if (amount > 0) {
-      const transaction = new Transaction(amount, new Date());
+  addTransactions(transaction) {
+    if (transaction.amount > 0) {
       this.transactions.push(transaction);
+    }
+    if (transaction.amount > this.getBalance) {
+      console.error("insufficient balance for transaction.");
     }
   }
 }
