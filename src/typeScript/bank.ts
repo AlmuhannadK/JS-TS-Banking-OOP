@@ -1,4 +1,7 @@
-class Bank {
+import { Branch } from "./Branch";
+import { Customer } from "./Customer";
+
+export class Bank {
   private name: string;
   private branches: Branch[];
   constructor(name: string) {
@@ -8,10 +11,10 @@ class Bank {
 
   addBranch(newBranch: Branch) {
     if (this.checkBranch(newBranch)) {
-      console.error(`Branch (${newBranch.name}) already exists`);
+      console.error(`Branch (${newBranch.getName()}) already exists`);
     } else {
       this.branches.push(newBranch);
-      console.info(`New branch (${newBranch.name}) added successfully!`);
+      console.info(`New branch (${newBranch.getName()}) added successfully!`);
     }
   }
 
@@ -25,9 +28,9 @@ class Bank {
     }
   }
 
-  addCustomerTransaction(branch: Branch, customerId: number, transaction) {
+  addCustomerTransaction(branch: Branch, customerId: number, amount: number) {
     if (this.checkBranch(branch)) {
-      branch.addCustomerTransaction(customerId, transaction);
+      branch.addCustomerTransaction(customerId, amount);
     } else {
       console.error(
         `sorry this branch does not exists this bank (${this.name})`
@@ -37,7 +40,7 @@ class Bank {
 
   findBranchByName(branchName: string) {
     const branchesToFind = this.branches.filter((branch) => {
-      if (branch.name.toLowerCase().includes(branchName.toLowerCase())) {
+      if (branch.getName().toLowerCase().includes(branchName.toLowerCase())) {
         return branch;
       }
     });
@@ -47,19 +50,19 @@ class Bank {
 
   checkBranch(branch: Branch) {
     const branchExists = this.branches.some((branchToFind) => {
-      return branchToFind.name === branch.name;
+      return branchToFind.getName() === branch.getName();
     });
     return branchExists;
   }
 
   listCustomers(branch: Branch, includeTransactions: boolean) {
     if (this.checkBranch(branch)) {
-      const customers: Customers[] = branch.getCustomers();
+      const customers: Customer[] = branch.getCustomers();
 
       customers.forEach((customer) => {
-        console.log(customer.name);
+        console.log(customer.getName());
         if (includeTransactions) {
-          console.log(customer.transactions);
+          console.log(customer.getTransactions());
         }
       });
 

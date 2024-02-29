@@ -1,11 +1,14 @@
-class Transaction {
+export class Transaction {
   private amount: number;
-  private date: string;
-  constructor(amount: number, date: string) {
+  private date: Date;
+  constructor(amount: number, date: Date) {
     this.amount = amount;
     this.date = date;
   }
+
   getAmount() {
     return this.amount;
   }
 }
+
+

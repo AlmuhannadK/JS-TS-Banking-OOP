@@ -1,4 +1,6 @@
-class Branch {
+import { Customer } from "./Customer";
+
+export class Branch {
   private name: string;
   private customers: Customer[];
   constructor(name: string) {
@@ -49,3 +51,4 @@ class Branch {
     }
   }
 }
+
