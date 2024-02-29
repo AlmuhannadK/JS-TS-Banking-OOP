@@ -1,0 +1,69 @@
+class Bank {
+  private name: string;
+  private branches: Branch[];
+  constructor(name: string) {
+    this.name = name;
+    this.branches = [];
+  }
+
+  addBranch(newBranch: Branch) {
+    if (this.checkBranch(newBranch)) {
+      console.error(`Branch (${newBranch.name}) already exists`);
+    } else {
+      this.branches.push(newBranch);
+      console.info(`New branch (${newBranch.name}) added successfully!`);
+    }
+  }
+
+  addCustomer(branchToAddIn: Branch, customerToAdd: Customer) {
+    if (this.checkBranch(branchToAddIn)) {
+      branchToAddIn.addCustomer(customerToAdd);
+    } else {
+      console.error(
+        `sorry this branch does not exists this bank (${this.name})`
+      );
+    }
+  }
+
+  addCustomerTransaction(branch: Branch, customerId: number, transaction) {
+    if (this.checkBranch(branch)) {
+      branch.addCustomerTransaction(customerId, transaction);
+    } else {
+      console.error(
+        `sorry this branch does not exists this bank (${this.name})`
+      );
+    }
+  }
+
+  findBranchByName(branchName: string) {
+    const branchesToFind = this.branches.filter((branch) => {
+      if (branch.name.toLowerCase().includes(branchName.toLowerCase())) {
+        return branch;
+      }
+    });
+    console.log(branchesToFind);
+    return branchesToFind;
+  }
+
+  checkBranch(branch: Branch) {
+    const branchExists = this.branches.some((branchToFind) => {
+      return branchToFind.name === branch.name;
+    });
+    return branchExists;
+  }
+
+  listCustomers(branch: Branch, includeTransactions: boolean) {
+    if (this.checkBranch(branch)) {
+      const customers: Customers[] = branch.getCustomers();
+
+      customers.forEach((customer) => {
+        console.log(customer.name);
+        if (includeTransactions) {
+          console.log(customer.transactions);
+        }
+      });
+
+      return customers;
+    }
+  }
+}
