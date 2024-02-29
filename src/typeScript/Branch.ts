@@ -1,7 +1,7 @@
 class Branch {
   private name: string;
   private customers: Customer[];
-  constructor(name:string) {
+  constructor(name: string) {
     this.name = name;
     this.customers = [];
   }
@@ -22,6 +22,7 @@ class Branch {
   addCustomer(customerToAdd: Customer) {
     if (this.checkCustomer(customerToAdd.getId())) {
       console.error(`Customer (${customerToAdd.getName()}) already exists`);
+      return false;
     } else {
       this.customers.push(customerToAdd);
       console.info(
@@ -29,6 +30,7 @@ class Branch {
           this.name
         })`
       );
+      return true;
     }
   }
   addCustomerTransaction(customerId: number, amount: number) {
@@ -36,12 +38,14 @@ class Branch {
       this.getCustomers().forEach((element) => {
         if (element.getId() === customerId) {
           element.addTransactions(amount);
+          return true;
         }
       });
     } else {
       console.error(
         `sorry this customer does not exists this branch (${this.name})`
       );
+      return false;
     }
   }
 }
