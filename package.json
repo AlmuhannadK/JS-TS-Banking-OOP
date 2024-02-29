@@ -1,7 +1,7 @@
 {
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "nodemon src/index.ts",
+    "watch": "nodemon src/typescript/index.ts",
     "build": "tsc",
     "start": "node build/index.js"
   },
