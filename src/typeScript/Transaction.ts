@@ -5,4 +5,7 @@ class Transaction {
     this.amount = amount;
     this.date = date;
   }
+  getAmount() {
+    return this.amount;
+  }
 }
