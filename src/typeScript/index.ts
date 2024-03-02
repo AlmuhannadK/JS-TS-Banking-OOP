@@ -7,9 +7,9 @@ const arizonaBank = new Bank("Arizona");
 const westBranch = new Branch("West Branch");
 const sunBranch = new Branch("Sun Branch");
 
-const customer1 = new Customer("John", 1);
+const customer1 = new Customer("John1", 1);
 const customer2 = new Customer("Anna", 2);
-const customer3 = new Customer("John", 3);
+const customer3 = new Customer("John2", 3);
 
 arizonaBank.addBranch(westBranch);
 arizonaBank.addBranch(sunBranch);
@@ -36,4 +36,6 @@ customer1.addTransactions(-1000);
 
 // to search by name only make id property = 0
 // to search by id only make name property = null
-console.log(arizonaBank.search({ name: null, id: 2 }));
+console.log(arizonaBank.searchById(2));
+console.log(arizonaBank.searchByName("John"));
+arizonaBank.listCustomers(westBranch, true);

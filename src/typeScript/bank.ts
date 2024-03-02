@@ -71,41 +71,34 @@ export class Bank {
     }
   }
 
-  search(obj: { name: string | null; id: number } = { name: null, id: 0 }) {
-    console.log(obj.id);
+  searchById(id: number) {
+    const customerList: Customer[] = [];
+    this.branches.forEach((branch) => {
+      customerList.push(...branch.getCustomers());
+    });
+    // console.log(customerList);
+    const searchResult: Customer[] = customerList.filter(
+      (customer: Customer) => {
+        if (customer.getId() === id) {
+          return customer;
+        }
+      }
+    );
+    return searchResult;
+  }
 
-    if (obj.name === null && obj.id === 0) {
-      console.log("You have to provide a name or am id to search");
-      return false;
-    } else if (!obj.id) {
-      const customerList: Customer[] = [];
-      this.branches.forEach((branch) => {
-        customerList.push(...branch.getCustomers());
-      });
-      const searchResult: Customer[] = customerList.filter(
-        (customer: Customer) => {
-          if (obj.name) {
-            if (customer.getName().includes(obj.name)) {
-              return customer;
-            }
-          }
+  searchByName(name: string) {
+    const customerList: Customer[] = [];
+    this.branches.forEach((branch) => {
+      customerList.push(...branch.getCustomers());
+    });
+    const searchResult: Customer[] = customerList.filter(
+      (customer: Customer) => {
+        if (customer.getName().includes(name)) {
+          return customer;
         }
-      );
-      return searchResult;
-    } else if (obj.name === null) {
-      const customerList: Customer[] = [];
-      this.branches.forEach((branch) => {
-        customerList.push(...branch.getCustomers());
-      });
-      // console.log(customerList);
-      const searchResult: Customer[] = customerList.filter(
-        (customer: Customer) => {
-          if (customer.getId() === obj.id) {
-            return customer;
-          }
-        }
-      );
-      return searchResult;
-    }
+      }
+    );
+    return searchResult;
   }
 }
