@@ -41,11 +41,11 @@ export class Branch {
       const targetCustomer: Customer | undefined = this.getCustomers().find(
         (customer) => {
           if (customer.getId() === customerId) {
-            customer.addTransactions(amount);
-            return true;
+            return customer;
           }
         }
       );
+      targetCustomer?.addTransactions(amount);
     } else {
       console.error(
         `sorry this customer does not exists this branch (${this.name})`
