@@ -9,7 +9,7 @@ export class Branch {
   }
 
   checkCustomer(customerId: number) {
-    const customerExists = this.customers.some((customer) => {
+    const customerExists: boolean = this.customers.some((customer) => {
       return customer.getId() === customerId;
     });
     return customerExists;
@@ -35,14 +35,17 @@ export class Branch {
       return true;
     }
   }
+
   addCustomerTransaction(customerId: number, amount: number) {
     if (this.checkCustomer(customerId)) {
-      this.getCustomers().forEach((element) => {
-        if (element.getId() === customerId) {
-          element.addTransactions(amount);
-          return true;
+      const targetCustomer: Customer | undefined = this.getCustomers().find(
+        (customer) => {
+          if (customer.getId() === customerId) {
+            customer.addTransactions(amount);
+            return true;
+          }
         }
-      });
+      );
     } else {
       console.error(
         `sorry this customer does not exists this branch (${this.name})`
@@ -51,4 +54,3 @@ export class Branch {
     }
   }
 }
-
