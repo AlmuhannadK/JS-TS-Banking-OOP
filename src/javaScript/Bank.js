@@ -1,173 +1,67 @@
 class Bank {
   constructor(name) {
     this.name = name;
-    this.branches = [
-      {
-        name: "oldBranch",
-        customers: [
-          {
-            name: "khalid",
-            id: 123,
-            transactions: [
-              {
-                amount: 500,
-                date: "01-02-2024",
-              },
-              {
-                amount: 500,
-                date: "02-02-2024",
-              },
-              {
-                amount: 500,
-                date: "03-02-2024",
-              },
-            ],
-          },
-          {
-            name: "ahmed",
-            id: 1234,
-            transactions: [
-              {
-                amount: 500,
-                date: "01-02-2024",
-              },
-              {
-                amount: 500,
-                date: "02-02-2024",
-              },
-              {
-                amount: 500,
-                date: "03-02-2024",
-              },
-            ],
-          },
-        ],
-      },
-    ];
+    this.branches = [];
   }
 
   addBranch(newBranch) {
-    this.branches.forEach((branch) => {
-      if (branch.name === newBranch.name) {
-        console.error(`Branch name (${newBranch.name}) already exists`);
-      } else {
-        this.branches.push(newBranch);
-      }
-    });
+    if (this.checkBranch(newBranch)) {
+      console.error(`Branch (${newBranch.name}) already exists`);
+    } else {
+      this.branches.push(newBranch);
+      console.info(`New branch (${newBranch.name}) added successfully!`);
+    }
   }
 
-  addCustomer(branch, customer) {
-    this.branches.forEach((branchElement) => {
-      if (branchElement.name === branch.name) {
-        branchElement.customers.forEach((customerElement) => {
-          if (customerElement.id === customer.id) {
-            console.error(
-              `Customer (${customer.name}) already exists in (${branchElement.name})`
-            );
-          } else {
-            branchElement.customers.push(customer);
-            console.info(`New customer added successfully! (${customer.name})`);
-          }
-        });
-      }
-    });
+  addCustomer(branchToAddIn, customerToAdd) {
+    if (this.checkBranch(branchToAddIn)) {
+      branchToAddIn.addCustomer(customerToAdd);
+    } else {
+      console.error(
+        `sorry this branch does not exists this bank (${this.name})`
+      );
+    }
   }
 
-  addCustomerTransaction(branch, customerId, amount) {
-    let balance = 0;
-    this.branches.forEach((branchElement) => {
-      if (branchElement.name === branch.name) {
-        branchElement.customers.forEach((customerElement) => {
-          if (customerElement.id === customerId) {
-            customerElement.transactions.forEach((transactionsElement) => {
-              balance += transactionsElement.amount;
-            });
-            let newBalance = balance + amount;
-            if (newBalance >= 0) {
-              customerElement.transactions.push(
-                new Transaction(amount, new Date())
-              );
-              console.log(
-                `Successful transaction new balance is (${newBalance})`
-              );
-            } else {
-              console.error(
-                `sorry this transactions cannot be completed due to low balance`
-              );
-            }
-          }
-        });
+  addCustomerTransaction(branch, addToCustomer, transaction) {
+    if (this.checkBranch(branch)) {
+      branch.addCustomerTransaction(addToCustomer, transaction);
+    } else {
+      console.error(
+        `sorry this branch does not exists this bank (${this.name})`
+      );
+    }
+  }
+
+  findBranchByName(branchName) {
+    const branchesToFind = this.branches.filter((branch) => {
+      if (branch.name.toLowerCase().includes(branchName.toLowerCase())) {
+        return branch;
       }
     });
+    console.log(branchesToFind);
+    return branchesToFind;
+  }
+
+  checkBranch(branch) {
+    const branchExists = this.branches.some((branchToFind) => {
+      return branchToFind.name === branch.name;
+    });
+    return branchExists ? true : false;
+  }
+
+  listCustomers(branch, includeTransactions) {
+    if (this.checkBranch(branch)) {
+      const customers = branch.getCustomers();
+
+      customers.forEach((customer) => {
+        console.log(customer.getName());
+        if (includeTransactions) {
+          console.log(customer.getTransactions());
+        }
+      });
+
+      return customers;
+    }
   }
 }
-
-class Transaction {
-  constructor(amount, date) {
-    this.amount = amount;
-    this.date = date;
-  }
-}
-
-newBank = new Bank("testBank");
-
-const newBranch = {
-  name: "newBranch",
-  customers: [
-    {
-      name: "khalid 123",
-      id: 123,
-      transactions: [
-        {
-          amount: 500,
-          date: "01-02-2024",
-        },
-        {
-          amount: 500,
-          date: "02-02-2024",
-        },
-        {
-          amount: 500,
-          date: "03-02-2024",
-        },
-      ],
-    },
-  ],
-};
-
-const newCustomer = {
-  name: "ahmed",
-  id: 3123,
-  transactions: [
-    {
-      amount: 500,
-      date: "01-02-2024",
-    },
-    {
-      amount: 500,
-      date: "02-02-2024",
-    },
-    {
-      amount: 500,
-      date: "03-02-2024",
-    },
-  ],
-};
-
-const newTransaction = {
-  amount: 500,
-  date: "01-02-2024",
-};
-
-newBank.addBranch(newBranch);
-
-newBank.addCustomer(newBranch, newCustomer);
-
-newBank.addCustomerTransaction(newBranch, newCustomer.id, -1500);
-
-newBank.branches.forEach((element1) => {
-  element1.customers.forEach((element) => {
-    console.log(element);
-  });
-  //   element1.transactions.forEach((element) => {});
-});
