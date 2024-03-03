@@ -59,14 +59,12 @@ export class Bank {
   listCustomers(branch: Branch, includeTransactions: boolean) {
     if (this.checkBranch(branch)) {
       const customers: Customer[] = branch.getCustomers();
-
       customers.forEach((customer) => {
         console.log(customer.getName());
         if (includeTransactions) {
           console.log(customer.getTransactions());
         }
       });
-
       return customers;
     }
   }

@@ -13,8 +13,8 @@ class Customer {
     return this.id;
   }
 
-  getTransaction(amount, date) {
-    return this.amount, this.date;
+  getTransaction() {
+    return this.transactions;
   }
 
   getBalance() {

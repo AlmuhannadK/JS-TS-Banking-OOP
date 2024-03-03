@@ -21,9 +21,7 @@ export class Customer {
 
   getBalance() {
     let balance: number = 0;
-
     const transactionList: Transaction[] = this.getTransactions();
-
     transactionList.forEach((transaction: Transaction) => {
       balance += transaction.getAmount();
     });
