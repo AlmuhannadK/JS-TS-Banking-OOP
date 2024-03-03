@@ -1,3 +1,4 @@
+import { error } from "console";
 import { Branch } from "./Branch";
 import { Customer } from "./Customer";
 
@@ -70,33 +71,34 @@ export class Bank {
     }
   }
 
-  // Level 3: Bonus Requirements (Optional)
-  getCustomerByName(name: string) {
-    this.branches.forEach((branchElement) => {
-      const customerList = branchElement.getCustomers();
-      customerList.forEach((customer) => {
-        if (customer.getName().toLowerCase() === name.toLowerCase()) {
-          const targetCustomer: Customer = customer;
-
-          return targetCustomer.getName();
-        }
-      });
+  searchById(id: number) {
+    const customerList: Customer[] = [];
+    this.branches.forEach((branch) => {
+      customerList.push(...branch.getCustomers());
     });
+    // console.log(customerList);
+    const searchResult: Customer[] = customerList.filter(
+      (customer: Customer) => {
+        if (customer.getId() === id) {
+          return customer;
+        }
+      }
+    );
+    return searchResult;
   }
 
-  getCustomerById(id: number) {}
+  searchByName(name: string) {
+    const customerList: Customer[] = [];
+    this.branches.forEach((branch) => {
+      customerList.push(...branch.getCustomers());
+    });
+    const searchResult: Customer[] = customerList.filter(
+      (customer: Customer) => {
+        if (customer.getName().includes(name)) {
+          return customer;
+        }
+      }
+    );
+    return searchResult;
+  }
 }
-
-//Branch Class
-
-// getCustomers() {
-//   return this.customers;
-// }
-
-// Customer Class
-// getName() {
-//   return this.name;
-// }
-// getId() {
-//   return this.id;
-// }
