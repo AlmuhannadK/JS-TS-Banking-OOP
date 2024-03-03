@@ -95,12 +95,13 @@ class Branch {
       );
     }
   }
-  addCustomerTransaction(addToCustomer, amount) {
-    if (this.checkCustomer(addToCustomer)) {
-      this.getCustomers().forEach((element) => {
-        if (element.id === addToCustomer) {
-          element.addTransactions(amount);
+  addCustomerTransaction(customerId, amount) {
+    if (this.checkCustomer(customerId)) {
+      const customerTransaction = this.getCustomers().find((customer) => {
+        if (customer.getId() === customerId) {
+          return customer;
         }
+        customerTransaction.addTransactions(amount);
       });
     } else {
       console.error(
