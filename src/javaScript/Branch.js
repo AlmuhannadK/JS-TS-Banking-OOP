@@ -4,6 +4,13 @@ class Branch {
     this.customers = [];
   }
 
+  checkCustomer(customerId) {
+    const customerExists = this.customers.some((customer) => {
+      return customer.id === customerId;
+    });
+    return customerExists;
+  }
+
   getName() {
     return this.name;
   }
@@ -11,20 +18,28 @@ class Branch {
     return this.customers;
   }
 
-  addCustomer(customer) {
-    if (this.customers.includes(customer)) {
-      console.error("Customer already exists");
+  addCustomer(customerToAdd) {
+    if (this.checkCustomer(customerToAdd)) {
+      console.error(`Customer (${customerToAdd.name}) already exists`);
     } else {
-      this.customers.push(customer);
+      this.customers.push(customerToAdd);
+      console.info(
+        `New customer (${customerToAdd.name}) added successfully! to (${this.name})`
+      );
     }
   }
 
-  addCustomerTransaction(customerId, amount) {
-    const customer = this.customers.find(
-      (customerElement) => customerElement.getId() === customerId
-    );
-    if (customer) {
-      return customer.addTransaction(amount);
+  addCustomerTransaction(addToCustomer, amount) {
+    if (this.checkCustomer(addToCustomer)) {
+      this.getCustomers().forEach((element) => {
+        if (element.id === addToCustomer) {
+          element.addTransactions(amount);
+        }
+      });
+    } else {
+      console.error(
+        `sorry this customer does not exists this branch (${this.name})`
+      );
     }
   }
 }

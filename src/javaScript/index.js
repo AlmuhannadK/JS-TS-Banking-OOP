@@ -47,12 +47,19 @@ class Bank {
     const branchExists = this.branches.some((branchToFind) => {
       return branchToFind.name === branch.name;
     });
-    return branchExists;
+    return branchExists ? true : false;
   }
 
   listCustomers(branch, includeTransactions) {
     if (this.checkBranch(branch)) {
       const customers = branch.getCustomers();
+
+      customers.forEach((customer) => {
+        console.log(customer.getName());
+        if (includeTransactions) {
+          console.log(customer.getTransactions());
+        }
+      });
 
       return customers;
     }
@@ -122,16 +129,13 @@ class Customer {
   getBalance() {
     let balance = 0;
     this.getTransactions().forEach((transaction) => {
-      balance += transaction.amount;
+      balance += transaction.getAmount();
     });
     return balance;
   }
 
   addTransactions(transactionAmount) {
-    let balance = 0;
-    this.transactions.forEach((transaction) => {
-      balance += transaction.amount;
-    });
+    let balance = this.getBalance();
 
     let newBalance = balance + transactionAmount;
     if (newBalance > 0) {
@@ -149,6 +153,10 @@ class Transaction {
   constructor(amount, date) {
     this.amount = amount;
     this.date = date;
+  }
+
+  getAmount() {
+    return this.amount;
   }
 }
 
