@@ -1,6 +1,6 @@
 import { Branch } from "./Branch";
 import { Customer } from "./Customer";
-import { Bank } from "./Bank";
+import { Bank } from "./bank";
 
 const arizonaBank = new Bank("Arizona");
 
@@ -34,12 +34,8 @@ customer1.addTransactions(-1000);
 
 // console.log(arizonaBank);
 
-<<<<<<< HEAD
-console.log(JSON.stringify(arizonaBank.getCustomerByName("John"), null, 2));
-=======
 // to search by name only make id property = 0
 // to search by id only make name property = null
 console.log(arizonaBank.searchById(2));
 console.log(arizonaBank.searchByName("John"));
 arizonaBank.listCustomers(westBranch, true);
->>>>>>> main
